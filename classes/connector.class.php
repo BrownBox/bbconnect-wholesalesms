@@ -89,7 +89,7 @@ class bbconnect_wholesalesms_connector {
             $response = wp_remote_post( $this->url, $args );
             $result = json_decode($response['body']);
 
-            if (true) { // @todo If send was successful
+            if ($result->error->code == 'SUCCESS') {
                 $form_id = bbconnect_get_send_email_form();
                 $numbers = array();
                 foreach ($recipients as $recipient => $number){
