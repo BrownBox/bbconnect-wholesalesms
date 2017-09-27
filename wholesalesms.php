@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name: Connexions WhoesaleSMS
+ * Plugin Name: Connexions WholesaleSMS
  * Plugin URI: http://connexionscrm.com/
  * Description: Send SMS messages to your contacts direct from your CRM
- * Version: 0.1
+ * Version: 0.1.1
  * Author: Brown Box
  * Author URI: http://brownbox.net.au
  * License: Proprietary Brown Box
@@ -38,4 +38,18 @@ function bbconnect_wholesalesms_deactivate_notice() {
     if (isset($_GET['activate'])) {
         unset($_GET['activate']);
     }
+}
+
+add_filter('bbconnect_activity_types', 'bbconnect_wholesalesms_activity_types');
+function bbconnect_wholesalesms_activity_types($types) {
+    $types['wholesalesms'] = 'WholesaleSMS';
+    return $types;
+}
+
+add_filter('bbconnect_activity_icon', 'bbconnect_wholesalesms_activity_icon', 10, 2);
+function bbconnect_wholesalesms_activity_icon($icon, $activity_type) {
+    if ($activity_type == 'wholesalesms') {
+        $icon = plugin_dir_url(__FILE__).'images/activity-icon.png';
+    }
+    return $icon;
 }
