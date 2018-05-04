@@ -86,10 +86,12 @@ class bbconnect_wholesalesms_connector {
                     ),
             );
 
-            $response = wp_remote_post( $this->url, $args );
+            $response = wp_remote_post($this->url, $args);
             $result = json_decode($response['body']);
+            $this->last_code = $response['response']['code'];
 
-            if ($result->error->code == 'SUCCESS') {
+            if ($this->is_success()) {
+                $orig_post = $_POST;
                 $form_id = bbconnect_get_send_email_form();
                 $numbers = array();
                 foreach ($recipients as $recipient => $number){
@@ -120,6 +122,9 @@ class bbconnect_wholesalesms_connector {
                         GFAPI::submit_form($form_id, $entry);
                     }
                 }
+                $_POST = $orig_post;
+            } else {
+                $this->last_error = $result->error->code;
             }
         }
     }
