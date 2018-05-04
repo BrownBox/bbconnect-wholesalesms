@@ -13,7 +13,7 @@ if ($type == 'reply') {
     $entries = GFAPI::get_entries(bbconnect_get_send_email_form(), $search_criteria);
     foreach ($entries as $entry) {
         $phone = rgar($entry, '10');
-        $sender = $entry->user_agent;
+        $sender = new WP_User($entry->agent_id);
         $phone = str_replace('+', '', $phone);
         if (strpos($phone, '0') === 0) {
             $phone = '61'.substr($phone, 1);
@@ -32,10 +32,10 @@ if ($type == 'reply') {
                 'input_3'   => 'SMS',
                 'input_7'   => 'SMS Received from '.$mobile,
                 'input_8'   => $response,
-                'input_9.1' => 'Follow up required',
+                'input_9_1' => 'Follow up required',
                 'input_11'  => date("Y/m/d"),
                 'input_14'  => 'Please review the reply and take action as required',
-                'input_12'  => $sender,
+                'input_12'  => $sender->user_email,
                 'input_18'  => $email,
         );
         GFAPI::submit_form($action_form_id, $entry);
