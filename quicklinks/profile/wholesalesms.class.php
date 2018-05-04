@@ -52,7 +52,7 @@ class profile_wholesalesms_quicklink extends bb_form_quicklink {
         $connector = bbconnect_wholesalesms_connector::get_instance();
         $connector->send_sms($telephone, $message);
 
-        if (!$this->connector->is_success()) {
+        if (!$connector->is_success()) {
             echo 'An error occured while attempted to send your SMS: '.$connector->get_last_error().'.';
             die();
         }
