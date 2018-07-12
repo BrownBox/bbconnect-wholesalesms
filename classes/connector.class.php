@@ -93,34 +93,30 @@ class bbconnect_wholesalesms_connector {
             if ($this->is_success()) {
                 $orig_post = $_POST;
                 $form_id = bbconnect_get_send_email_form();
-                $numbers = array();
                 foreach ($recipients as $recipient => $number){
-                    $numbers[] = $number;
-                    foreach ($numbers as $number){
-                        $firstname = $lastname = $email = '';
-                        $user = get_user_by('id', $recipient);
-                        if ($user instanceof WP_User) {
-                            $firstname = $user->user_firstname;
-                            $lastname = $user->user_lastname;
-                            $email = $user->user_email;
-                        }
-                        // Insert GF entry
-                        $_POST = array(); // Hack to allow multiple form submissions via API in single process
-                        $entry = array(
-                                'input_2_3' => $firstname,
-                                'input_2_6' => $lastname,
-                                'input_3' => $email,
-                                'input_4' => $subject,
-                                'input_5' => $message,
-                                'input_6' => 'wholesalesms',
-                                'input_7' => 'wholesalesms',
-                                'input_9' => $result->message_id,
-                                'input_10' => $number,
-                                'agent_id' => get_current_user_id(),
-                                'created_by' => $recipient,
-                        );
-                        GFAPI::submit_form($form_id, $entry);
+                    $firstname = $lastname = $email = '';
+                    $user = get_user_by('id', $recipient);
+                    if ($user instanceof WP_User) {
+                        $firstname = $user->user_firstname;
+                        $lastname = $user->user_lastname;
+                        $email = $user->user_email;
                     }
+                    // Insert GF entry
+                    $_POST = array(); // Hack to allow multiple form submissions via API in single process
+                    $entry = array(
+                            'input_2_3' => $firstname,
+                            'input_2_6' => $lastname,
+                            'input_3' => $email,
+                            'input_4' => $subject,
+                            'input_5' => $message,
+                            'input_6' => 'wholesalesms',
+                            'input_7' => 'wholesalesms',
+                            'input_9' => $result->message_id,
+                            'input_10' => $number,
+                            'agent_id' => get_current_user_id(),
+                            'created_by' => $recipient,
+                    );
+                    GFAPI::submit_form($form_id, $entry);
                 }
                 $_POST = $orig_post;
             } else {
