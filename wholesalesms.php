@@ -3,7 +3,7 @@
  * Plugin Name: Connexions WholesaleSMS
  * Plugin URI: http://connexionscrm.com/
  * Description: Send SMS messages to your contacts direct from your CRM
- * Version: 0.1.2
+ * Version: 0.1.3
  * Author: Brown Box
  * Author URI: http://brownbox.net.au
  * License: Proprietary Brown Box
